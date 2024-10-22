@@ -3106,6 +3106,130 @@ Length of LCS is 4. In lexicographical order, the longest common subsequences ar
     }
 };
 </div></code></pre>
+<h1 id="largest-divisible-subset" tabindex="-1"><a href="https://leetcode.com/problems/largest-divisible-subset/">Largest Divisible Subset</a></h1>
+<pre class='hljs'><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> {</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">largestDivisibleSubset</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>{
+        <span class="hljs-built_in">sort</span>(nums.<span class="hljs-built_in">begin</span>(),nums.<span class="hljs-built_in">end</span>());
+        <span class="hljs-keyword">int</span> n=nums.<span class="hljs-built_in">size</span>();
+        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(n,<span class="hljs-number">1</span>)</span></span>;
+        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">hash</span><span class="hljs-params">(n)</span></span>;
+        <span class="hljs-built_in">iota</span>(hash.<span class="hljs-built_in">begin</span>(),hash.<span class="hljs-built_in">end</span>(),<span class="hljs-number">0</span>);
+        <span class="hljs-keyword">int</span> maxi=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> lastIndex=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++){
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> prev=<span class="hljs-number">0</span>;prev&lt;i;prev++){
+               <span class="hljs-keyword">if</span>(nums[i]%nums[prev]==<span class="hljs-number">0</span> &amp;&amp; dp[prev]+<span class="hljs-number">1</span>&gt;dp[i]){
+                   dp[i]=dp[prev]+<span class="hljs-number">1</span>;
+                   hash[i]=prev;
+               }
+            }
+            <span class="hljs-keyword">if</span>(dp[i]&gt;maxi){
+                maxi=dp[i];
+                lastIndex=i;
+            }
+        }
+        vector&lt;<span class="hljs-keyword">int</span>&gt; ans;
+        ans.<span class="hljs-built_in">push_back</span>(nums[lastIndex]);
+        <span class="hljs-keyword">while</span>(hash[lastIndex]!=lastIndex){
+             lastIndex=hash[lastIndex];
+             ans.<span class="hljs-built_in">push_back</span>(nums[lastIndex]);
+        }
+        <span class="hljs-built_in">reverse</span>(<span class="hljs-built_in">begin</span>(ans),<span class="hljs-built_in">end</span>(ans));
+        <span class="hljs-keyword">return</span> ans;
+    }
+};
+</div></code></pre>
+<h1 id="longest-string-chain" tabindex="-1"><a href="https://leetcode.com/problems/longest-string-chain/">Longest String Chain</a></h1>
+<pre class='hljs'><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> {</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(string &amp;s1,string &amp;s2)</span></span>{
+        <span class="hljs-keyword">return</span> s1.<span class="hljs-built_in">size</span>()&lt;s2.<span class="hljs-built_in">size</span>();
+    }
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">checkPossible</span><span class="hljs-params">(string s1,string s2)</span></span>{
+         <span class="hljs-keyword">if</span> (s1.<span class="hljs-built_in">size</span>() != s2.<span class="hljs-built_in">size</span>() + <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">int</span> f=<span class="hljs-number">0</span>,s=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(f&lt;s1.<span class="hljs-built_in">size</span>()){
+            <span class="hljs-keyword">if</span>(s&lt;s2.<span class="hljs-built_in">size</span>() &amp;&amp; s1[f]==s2[s]){
+                s++;
+            }
+            f++;
+        }
+        <span class="hljs-keyword">return</span> s == s2.<span class="hljs-built_in">size</span>();
+    }
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">longestStrChain</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>{
+        <span class="hljs-built_in">sort</span>(<span class="hljs-built_in">begin</span>(words),<span class="hljs-built_in">end</span>(words),cmp);
+        <span class="hljs-keyword">int</span> n=words.<span class="hljs-built_in">size</span>();
+        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(n,<span class="hljs-number">1</span>)</span></span>;
+        <span class="hljs-keyword">int</span> maxi=<span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++){
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> prev=<span class="hljs-number">0</span>;prev&lt;i;prev++){
+                <span class="hljs-keyword">if</span>(<span class="hljs-built_in">checkPossible</span>(words[i],words[prev]) &amp;&amp; dp[i]&lt;dp[prev]+<span class="hljs-number">1</span>){
+                     dp[i]=dp[prev]+<span class="hljs-number">1</span>;
+                }
+            }
+            <span class="hljs-keyword">if</span>(dp[i]&gt;maxi){
+                maxi=<span class="hljs-built_in">max</span>(dp[i],maxi);
+            }
+        }
+        <span class="hljs-keyword">return</span> maxi;
+    }
+};
+</div></code></pre>
+<h1 id="longest-bitonic-sequence" tabindex="-1"><a href="https://www.naukri.com/code360/problems/longest-bitonic-sequence_1062688?utm_source=striver&amp;utm_medium=website&amp;utm_campaign=a_zcoursetuf&amp;leftPanelTabValue=PROBLEM">Longest Bitonic Sequence</a></h1>
+<pre class='hljs'><code><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">longestBitonicSubsequence</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; arr, <span class="hljs-keyword">int</span> n)</span>
+</span>{
+	<span class="hljs-comment">// Write your code here.</span>
+        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp1</span><span class="hljs-params">(n,<span class="hljs-number">1</span>)</span>,<span class="hljs-title">dp2</span><span class="hljs-params">(n,<span class="hljs-number">1</span>)</span></span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++){
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;i;j++){
+				<span class="hljs-keyword">if</span>(arr[i]&gt;arr[j])
+                dp1[i]=<span class="hljs-built_in">max</span>(dp1[i],dp1[j]+<span class="hljs-number">1</span>);
+            }
+        }
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=n<span class="hljs-number">-1</span>;i&gt;=<span class="hljs-number">0</span>;i--){
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=n<span class="hljs-number">-1</span>;j&gt;i;j--){
+				<span class="hljs-keyword">if</span>(arr[i]&gt;arr[j])
+                dp2[i]=<span class="hljs-built_in">max</span>(dp2[i],dp2[j]+<span class="hljs-number">1</span>);
+            }
+        }
+        <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++){
+            ans=<span class="hljs-built_in">max</span>(ans,dp1[i]+dp2[i]<span class="hljs-number">-1</span>);
+        }
+        <span class="hljs-keyword">return</span> ans;
+}
+
+</div></code></pre>
+<h1 id="number-of-longest-increasing-subsequence" tabindex="-1"><a href="https://leetcode.com/problems/number-of-longest-increasing-subsequence/">Number of Longest Increasing Subsequence</a></h1>
+<pre class='hljs'><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> {</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findNumberOfLIS</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>{
+        <span class="hljs-keyword">int</span> n=nums.<span class="hljs-built_in">size</span>();
+        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(n,<span class="hljs-number">1</span>)</span></span>;
+        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">cnt</span><span class="hljs-params">(n,<span class="hljs-number">1</span>)</span></span>;
+        <span class="hljs-keyword">int</span> maxi=<span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++){
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;i;j++){
+               <span class="hljs-keyword">if</span>(nums[i]&gt;nums[j] &amp;&amp; dp[i]&lt;dp[j]+<span class="hljs-number">1</span>){
+                   dp[i]=dp[j]+<span class="hljs-number">1</span>;
+                   cnt[i]=cnt[j];
+               }
+               <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(nums[i]&gt;nums[j] &amp;&amp; dp[i]==dp[j]+<span class="hljs-number">1</span>){
+                   cnt[i]+=cnt[j];
+               }
+            }
+            maxi=<span class="hljs-built_in">max</span>(maxi,dp[i]);
+        }
+        <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++){
+            <span class="hljs-keyword">if</span>(dp[i]==maxi) ans+=cnt[i];
+        }
+        <span class="hljs-keyword">return</span> ans;
+
+    }
+};
+</div></code></pre>
 
     </div>
 </body>

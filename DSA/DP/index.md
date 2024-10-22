@@ -3084,3 +3084,139 @@ public:
     }
 };
 ```
+
+# [Largest Divisible Subset](https://leetcode.com/problems/largest-divisible-subset/)
+
+```cpp
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        vector<int> dp(n,1);
+        vector<int> hash(n);
+        iota(hash.begin(),hash.end(),0);
+        int maxi=0;
+        int lastIndex=0;
+        for(int i=0;i<n;i++){
+            for(int prev=0;prev<i;prev++){
+               if(nums[i]%nums[prev]==0 && dp[prev]+1>dp[i]){
+                   dp[i]=dp[prev]+1;
+                   hash[i]=prev;
+               }
+            }
+            if(dp[i]>maxi){
+                maxi=dp[i];
+                lastIndex=i;
+            }
+        }
+        vector<int> ans;
+        ans.push_back(nums[lastIndex]);
+        while(hash[lastIndex]!=lastIndex){
+             lastIndex=hash[lastIndex];
+             ans.push_back(nums[lastIndex]);
+        }
+        reverse(begin(ans),end(ans));
+        return ans;
+    }
+};
+```
+
+# [Longest String Chain](https://leetcode.com/problems/longest-string-chain/)
+
+```cpp
+class Solution {
+public:
+    static bool cmp(string &s1,string &s2){
+        return s1.size()<s2.size();
+    }
+    bool checkPossible(string s1,string s2){
+         if (s1.size() != s2.size() + 1) return false;
+        int f=0,s=0;
+        while(f<s1.size()){
+            if(s<s2.size() && s1[f]==s2[s]){
+                s++;
+            }
+            f++;
+        }
+        return s == s2.size();
+    }
+    int longestStrChain(vector<string>& words) {
+        sort(begin(words),end(words),cmp);
+        int n=words.size();
+        vector<int> dp(n,1);
+        int maxi=1;
+        for(int i=0;i<n;i++){
+            for(int prev=0;prev<i;prev++){
+                if(checkPossible(words[i],words[prev]) && dp[i]<dp[prev]+1){
+                     dp[i]=dp[prev]+1;
+                }
+            }
+            if(dp[i]>maxi){
+                maxi=max(dp[i],maxi);
+            }
+        }
+        return maxi;
+    }
+};
+```
+
+# [Longest Bitonic Sequence](https://www.naukri.com/code360/problems/longest-bitonic-sequence_1062688?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM)
+
+```cpp
+int longestBitonicSubsequence(vector<int>& arr, int n)
+{
+	// Write your code here.
+        vector<int> dp1(n,1),dp2(n,1);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+				if(arr[i]>arr[j])
+                dp1[i]=max(dp1[i],dp1[j]+1);
+            }
+        }
+        for(int i=n-1;i>=0;i--){
+            for(int j=n-1;j>i;j--){
+				if(arr[i]>arr[j])
+                dp2[i]=max(dp2[i],dp2[j]+1);
+            }
+        }
+        int ans=0;
+        for(int i=0;i<n;i++){
+            ans=max(ans,dp1[i]+dp2[i]-1);
+        }
+        return ans;
+}
+
+```
+
+# [Number of Longest Increasing Subsequence](https://leetcode.com/problems/number-of-longest-increasing-subsequence/)
+
+```cpp
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> dp(n,1);
+        vector<int> cnt(n,1);
+        int maxi=1;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+               if(nums[i]>nums[j] && dp[i]<dp[j]+1){
+                   dp[i]=dp[j]+1;
+                   cnt[i]=cnt[j];
+               }
+               else if(nums[i]>nums[j] && dp[i]==dp[j]+1){
+                   cnt[i]+=cnt[j];
+               }
+            }
+            maxi=max(maxi,dp[i]);
+        }
+        int ans=0;
+        for(int i=0;i<n;i++){
+            if(dp[i]==maxi) ans+=cnt[i];
+        }
+        return ans;
+
+    }
+};
+```
