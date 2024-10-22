@@ -421,7 +421,137 @@ blockquote {
 <body>
     <div class="content-wrapper">
         <h1 id="fenwicktree-(binary-index-tree)" tabindex="-1">FenWickTree (Binary Index Tree)</h1>
-<pre class='hljs'><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<h1 id="understanding-rightmost-set-bit-manipulation-and-fenwick-tree-operations" tabindex="-1">Understanding Rightmost Set Bit Manipulation and Fenwick Tree Operations</h1>
+<p>We’ll first break down the steps to find and remove the rightmost set bit, then discuss how these operations are used in Fenwick Trees for efficient updates and queries.</p>
+<hr>
+<h2 id="rightmost-set-bit-and-its-removal" tabindex="-1">Rightmost Set Bit and Its Removal</h2>
+<p>Let’s start with finding and removing the rightmost set bit from a number. Suppose we have a binary number <code>x = 10011000</code>.</p>
+<h3 id="step-1%3A-representation-as-a1b" tabindex="-1">Step 1: Representation as <code>a1b</code></h3>
+<p>Any binary number can be broken down into three parts:</p>
+<ul>
+<li><code>a</code> is the part before the rightmost set bit.</li>
+<li><code>1</code> is the rightmost set bit.</li>
+<li><code>b</code> is the part after the rightmost set bit (which will be a sequence of zeros).</li>
+</ul>
+<p>For <code>x = 10011000</code>, we can write it as:</p>
+<ul>
+<li><code>a = 1001</code> (the part before the rightmost set bit),</li>
+<li><code>1 = 1</code> (the rightmost set bit),</li>
+<li><code>b = 000</code> (the part after the rightmost set bit).</li>
+</ul>
+<p>So, <code>x = a1b</code>.</p>
+<h3 id="step-2%3A-calculating--x" tabindex="-1">Step 2: Calculating <code>-x</code></h3>
+<p>Next, we calculate the two's complement of <code>x</code>, which is <code>-x</code>. The two's complement flips the bits of <code>x</code> and adds <code>1</code>.</p>
+<p>For <code>x = 10011000</code>, <code>-x</code> is calculated as:</p>
+<ol>
+<li>Flip the bits: <code>x' = 01100111</code></li>
+<li>Add <code>1</code>: <code>-x = 01100111 + 1 = 01101000</code></li>
+</ol>
+<h3 id="step-3%3A-finding-the-rightmost-set-bit" tabindex="-1">Step 3: Finding the Rightmost Set Bit</h3>
+<p>Now, to find the rightmost set bit, we use the operation <code>x &amp; -x</code>.</p>
+<p>For <code>x = 10011000</code> and <code>-x = 01101000</code>:</p>
+<pre class='hljs'><code><div>x &amp; -x = 10011000 &amp; 01101000 = 00001000
+</div></code></pre>
+<p>This operation isolates the rightmost set bit, which in this case is <code>00001000</code> (or <code>8</code> in decimal).</p>
+<h3 id="step-4%3A-removing-the-rightmost-set-bit" tabindex="-1">Step 4: Removing the Rightmost Set Bit</h3>
+<p>To remove the rightmost set bit from <code>x</code>, we perform:</p>
+<pre class='hljs'><code><div>x = x - (x &amp; -x)
+</div></code></pre>
+<p>In our example, <code>x = 10011000</code> and <code>x &amp; -x = 00001000</code>:</p>
+<pre class='hljs'><code><div>x - (x &amp; -x) = 10011000 - 00001000 = 10010000
+</div></code></pre>
+<p>So, after removing the rightmost set bit, <code>x = 10010000</code>.</p>
+<hr>
+<h2 id="fenwick-tree-operations" tabindex="-1">Fenwick Tree Operations</h2>
+<p>Fenwick Trees (Binary Indexed Trees) store prefix sums, and their structure allows efficient updates and range sum queries. Each index in the tree covers a specific range of values based on the binary representation of the index.</p>
+<h3 id="step-1%3A-range-for-a-given-index" tabindex="-1">Step 1: Range for a Given Index</h3>
+<p>For any index <code>i</code> in the Fenwick Tree, the range of numbers it covers is determined by removing the last set bit from <code>i</code>.</p>
+<p>For example, let’s take <code>i = 13</code>:</p>
+<ul>
+<li><code>i = 13</code> is <code>1101</code> in binary.</li>
+<li>Removing the last set bit gives <code>12</code> (<code>1100</code>).</li>
+<li>The range for index <code>13</code> is from <code>12 + 1</code> to <code>13</code>, i.e., the range <code>[13, 13]</code>.</li>
+</ul>
+<h3 id="step-2%3A-update-operation-in-fenwick-tree" tabindex="-1">Step 2: Update Operation in Fenwick Tree</h3>
+<p>When we update the value at a specific index <code>i</code>, we need to propagate this update to all subsequent indices whose ranges include <code>i</code>.</p>
+<p>Let’s update index <code>13</code>:</p>
+<ul>
+<li>The binary representation of <code>13</code> is <code>1101</code>.</li>
+<li>We add <code>1</code> to the last set bit, which gives us <code>14</code> (<code>1110</code>), and the range covered by index <code>14</code> is <code>[14, 14]</code>.</li>
+<li>We add <code>1</code> again, which gives us <code>16</code> (<code>10000</code>), and the range covered by index <code>16</code> is <code>[1, 16]</code>.</li>
+</ul>
+<p>So, when updating index <code>13</code>, we propagate the update to indices <code>14</code> and <code>16</code> because the ranges for these indices include <code>13</code>.</p>
+<pre class='hljs'><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> bit[], <span class="hljs-keyword">int</span> n)</span> </span>{
+    <span class="hljs-keyword">while</span> (i &lt;= n) {
+        bit[i] += x;    <span class="hljs-comment">// Update the value at index i</span>
+        i += i &amp; (-i);  <span class="hljs-comment">// Move to the next index whose range includes i</span>
+    }
+}
+</div></code></pre>
+<h3 id="example-of-update-operation%3A" tabindex="-1">Example of Update Operation:</h3>
+<ul>
+<li>Suppose we have the following bit[] array with n = 16:
+<ul>
+<li>
+<p>bit[13] = 5, bit[14] = 7, and bit[16] = 20.</p>
+</li>
+<li>
+<p>We want to add 3 to index 13.</p>
+</li>
+<li>
+<ol>
+<li>Start by updating bit[13]: bit[13] = 5 + 3 = 8.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Move to index 14 and update: bit[14] = 7 + 3 = 10.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Move to index 16 and update: bit[16] = 20 + 3 = 23.</li>
+</ol>
+</li>
+<li>
+<p>After the update, the array is:</p>
+</li>
+<li>
+<p>bit[13] = 8, bit[14] = 10, and bit[16] = 23.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="step-3%3A-sum-operation-in-fenwick-tree" tabindex="-1">Step 3: Sum Operation in Fenwick Tree</h3>
+<ul>
+<li>To compute the prefix sum up to index i, we sum all the values in bit[] from index i and its ancestors.</li>
+</ul>
+<pre class='hljs'><code><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> bit[])</span> </span>{
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (i &gt; <span class="hljs-number">0</span>) {
+        ans += bit[i];  <span class="hljs-comment">// Add the value at index i</span>
+        i -= i &amp; (-i);  <span class="hljs-comment">// Move to the parent index</span>
+    }
+    <span class="hljs-keyword">return</span> ans;
+}
+</div></code></pre>
+<p>Example of Sum Operation:</p>
+<p>Let’s say we want to compute the sum up to index 13:</p>
+<pre><code>•	Start at bit[13]: sum = 8.
+•	Move to bit[12]: sum = 8 + 9 = 17.
+•	Move to bit[8]: sum = 17 + 15 = 32.
+</code></pre>
+<p>So, the sum of elements from index 1 to 13 is 32.</p>
+<p>Summary</p>
+<pre><code>•	Finding the Rightmost Set Bit: You can isolate the rightmost set bit in a binary number using the operation x &amp; -x.
+•	Removing the Rightmost Set Bit: You can remove the rightmost set bit by performing x = x - (x &amp; -x).
+•	Fenwick Tree: Each index in a Fenwick Tree stores the sum of a specific range of elements, determined by the rightmost set bit of the index.
+•	The update operation propagates the update to all subsequent indices whose ranges include the updated index.
+•	The sum operation computes the prefix sum by moving up the tree from the current index to its ancestors.
+</code></pre>
+<p>By efficiently handling updates and queries, Fenwick Trees provide a powerful way to work with range sums in logarithmic time.</p>
+<pre class='hljs'><code><div>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FenWickTree</span>
 {</span>
