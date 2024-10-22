@@ -3220,3 +3220,71 @@ public:
     }
 };
 ```
+
+---
+
+# MCM(Matrix Chain Multiplication)
+
+---
+
+# [Matrix Chain Multiplication](https://www.geeksforgeeks.org/problems/matrix-chain-multiplication0303/1)
+
+### Recursion
+
+```cpp
+    int recursion(int i,int j,int arr[]){
+        if(i==j) return 0;
+        int mini=1e9;
+        for(int k=i;k<j;k++){
+            int steps=arr[i-1]*arr[k]*arr[j]+recursion(i,k,arr)+recursion(k+1,j,arr);
+            mini=min(mini,steps);
+        }
+        return mini;
+    }
+    int matrixMultiplication(int N, int arr[])
+    {
+        // code here
+        return recursion(1,N-1,arr);
+    }
+```
+
+### Memoisation
+
+```cpp
+int recursion(int i,int j,int arr[],vector<vector<int>> &dp){
+        if(i==j) return 0;
+        int mini=1e9;
+        if(dp[i][j]!=-1) return dp[i][j];
+        for(int k=i;k<j;k++){
+            int steps=arr[i-1]*arr[k]*arr[j]+recursion(i,k,arr,dp)+recursion(k+1,j,arr,dp);
+            mini=min(mini,steps);
+        }
+        return dp[i][j]=mini;
+    }
+    int matrixMultiplication(int N, int arr[])
+    {
+        // code here
+        vector<vector<int>> dp(N,vector<int>(N,-1));
+        return recursion(1,N-1,arr,dp);
+    }
+```
+
+### Tabulation
+
+```cpp
+int matrixMultiplication(int N, int arr[])
+    {
+        vector<vector<int>> dp(N,vector<int>(N,0));
+        for(int i=N-1;i>=1;i--){
+            for(int j=i+1;j<N;j++){
+            int mini=1e9;
+            for(int k=i;k<j;k++){
+            int steps=arr[i-1]*arr[k]*arr[j]+dp[i][k]+dp[k+1][j];
+            mini=min(mini,steps);
+        }
+         dp[i][j]=mini;
+            }
+        }
+        return dp[1][N-1];
+    }
+```
