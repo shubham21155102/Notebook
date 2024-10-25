@@ -422,7 +422,7 @@ blockquote {
     <div class="content-wrapper">
         <h1 id="benny-and-the-broken-odometer" tabindex="-1"><a href="https://www.hackerearth.com/problem/algorithm/benny-and-the-broken-odometer/">Benny And The Broken Odometer</a></h1>
 <p>Problem</p>
-<p>One fine day, Benny decided to calculate the number of kilometers that she traveled by her bicycle. Therefore, she bought an odometer and installed it onto her bicycle. But the odometer was broken. It was not able to display the digit  <em>3</em> . This would precisely mean, that the odometer won't be able to display the numbers having one of their digits as  <em>3</em> .</p>
+<p>One fine day, Benny decided to calculate the number of kilometers that she traveled by her bicycle. Therefore, she bought an odometer and installed it onto her bicycle. But the odometer was broken. It was not able to display the digit <em>3</em> . This would precisely mean, that the odometer won't be able to display the numbers having one of their digits as <em>3</em> .</p>
 <p>For example, after the number 1299, the odometer will show 1400.</p>
 <p>Benny was traveling a lot and now she wants to know the number of kilometers that she has traveled. You will be given only the number that Benny saw on the odometer. Your task is to determine the real distance.</p>
 <p><strong>Input format</strong></p>
@@ -456,8 +456,8 @@ The next <em>T</em> lines contain a single integer <em>N</em> denoting the numbe
 <p>Source Limit:</p>
 <p>Explanation</p>
 <ul>
-<li>In the first sample test case, the odometer skipped the number <em>3</em> and displayed <em>4</em> after it. Hence, the numbers were displayed in the order of [ <em>1</em> ,  <em>2</em> ,  <em>4</em> ,  <em>5</em> ] accounting to distance of four kilometers travelled.</li>
-<li>In the second sample test case, the sequence in which odometer displayed numbers would be [ <em>1</em> ,  <em>2</em> ,  <em>4</em> ,  <em>5</em> ,  <em>6</em> ,  <em>7</em> ,  <em>8</em> ,  <em>9</em> , 10, 11, 12, 14] and it skipped [ <em>3</em> , 13]. Thus, a total of 12 kilometers were travelled.</li>
+<li>In the first sample test case, the odometer skipped the number <em>3</em> and displayed <em>4</em> after it. Hence, the numbers were displayed in the order of [ <em>1</em> , <em>2</em> , <em>4</em> , <em>5</em> ] accounting to distance of four kilometers travelled.</li>
+<li>In the second sample test case, the sequence in which odometer displayed numbers would be [ <em>1</em> , <em>2</em> , <em>4</em> , <em>5</em> , <em>6</em> , <em>7</em> , <em>8</em> , <em>9</em> , 10, 11, 12, 14] and it skipped [ <em>3</em> , 13]. Thus, a total of 12 kilometers were travelled.</li>
 </ul>
 <pre class='hljs'><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
@@ -603,7 +603,7 @@ t and f will be less than 10^8 inclusive</p>
   }
   <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 }
- 
+
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">recursion</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index, <span class="hljs-keyword">bool</span> tight, <span class="hljs-keyword">int</span> sum, string s)</span>
 </span>{
   <span class="hljs-keyword">if</span> (index == s.<span class="hljs-built_in">length</span>())
@@ -645,7 +645,7 @@ t and f will be less than 10^8 inclusive</p>
     <span class="hljs-built_in">solve</span>();
   }
   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-} 
+}
 </div></code></pre>
 <h1 id="233.-number-of-digit-one" tabindex="-1"><a href="https://leetcode.com/problems/number-of-digit-one/">233. Number of Digit One</a></h1>
 <p>Given an integer <code>n</code>, count <em>the total number of digit <em><code>1</code></em> appearing in all non-negative integers less than or equal to</em> <code>n</code>.</p>
@@ -684,6 +684,115 @@ t and f will be less than 10^8 inclusive</p>
         <span class="hljs-keyword">return</span> <span class="hljs-built_in">recursion</span>(s,<span class="hljs-number">0</span>,<span class="hljs-literal">true</span>,<span class="hljs-number">0</span>);
     }
 };
+</div></code></pre>
+<h1 id="digit-count" tabindex="-1"><a href="https://lightoj.com/problem/digit-count">Digit Count</a></h1>
+<p>LOJ-1122<a href="https://www.udebug.com/LOJ/1122"><img src="https://lightoj.com/udebug.png" alt="Udebug">Debug</a></p>
+<p>Given a set of digits  <strong>S</strong> , and an integer  <strong>n</strong> , you have to find how many  <strong>n</strong> -digit integers are there, which contain digits that belong to <strong>S</strong> and the difference between any two adjacent digits is not more than two.</p>
+<h4 id="input-1" tabindex="-1">Input</h4>
+<p>Input starts with an integer  <strong>T (≤ 300)</strong> , denoting the number of test cases.</p>
+<p>Each case contains two integers, <strong>m (1 ≤ m &lt; 10)</strong> and  <strong>n (1 ≤ n ≤ 10)</strong> . The next line will contain <strong>m</strong> integers <strong>(from 1 to 9)</strong> separated by spaces. These integers form the set <strong>S</strong> as described above. These integers will be distinct and given in ascending order.</p>
+<h4 id="output-1" tabindex="-1">Output</h4>
+<p>For each case, print the case number and the number of valid  <strong>n</strong> -digit integers in a single line.</p>
+<h4 id="sample" tabindex="-1">Sample</h4>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>3 2</td>
+<td></td>
+</tr>
+<tr>
+<td>1 3 6</td>
+<td>Case 1: 5</td>
+</tr>
+<tr>
+<td>3 2</td>
+<td></td>
+</tr>
+<tr>
+<td>1 2 3</td>
+<td>Case 2: 9</td>
+</tr>
+<tr>
+<td>3 3</td>
+<td></td>
+</tr>
+<tr>
+<td>1 4 6</td>
+<td>Case 3: 9</td>
+</tr>
+</tbody>
+</table>
+<h4 id="notes" tabindex="-1">Notes</h4>
+<p>For the first case the valid integers are</p>
+<ol>
+<li>11</li>
+<li>13</li>
+<li>31</li>
+<li>33</li>
+<li>66</li>
+</ol>
+<pre class='hljs'><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">int</span> dp[<span class="hljs-number">12</span>][<span class="hljs-number">100</span>];
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">recursion</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;arr, <span class="hljs-keyword">int</span> index, <span class="hljs-keyword">int</span> prev, <span class="hljs-keyword">int</span> n)</span>
+</span>{
+  <span class="hljs-keyword">if</span> (index == n)
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (dp[index][prev] != <span class="hljs-number">-1</span>)
+    <span class="hljs-keyword">return</span> dp[index][prev];
+  <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-built_in">size</span>(); i++)
+  {
+    <span class="hljs-keyword">if</span> (prev == <span class="hljs-number">0</span> || <span class="hljs-built_in">abs</span>(arr[i] - prev) &lt;= <span class="hljs-number">2</span>)
+    {
+      ans += <span class="hljs-built_in">recursion</span>(arr, index + <span class="hljs-number">1</span>, arr[i], n);
+    }
+  }
+  <span class="hljs-keyword">return</span> dp[index][prev] = ans;
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">basicIO</span><span class="hljs-params">()</span>
+</span>{
+  <span class="hljs-keyword">int</span> a, b;
+  cin &gt;&gt; a &gt;&gt; b;
+  cout &lt;&lt; a + b &lt;&lt; endl;
+}
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">solve</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a)</span>
+</span>{
+  <span class="hljs-keyword">int</span> n, m;
+  cin &gt;&gt; n &gt;&gt; m;
+  <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">arr</span><span class="hljs-params">(n)</span></span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+  {
+    cin &gt;&gt; arr[i];
+  }
+  <span class="hljs-built_in">memset</span>(dp, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> dp);
+  cout &lt;&lt; <span class="hljs-string">&quot;Case &quot;</span> &lt;&lt; a &lt;&lt; <span class="hljs-string">&quot;: &quot;</span>;
+  cout &lt;&lt; <span class="hljs-built_in">recursion</span>(arr, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, m) &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+}
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+  <span class="hljs-comment">// basicIO();</span>
+  <span class="hljs-comment">// Your cpp code here</span>
+  <span class="hljs-keyword">int</span> t;
+  cin &gt;&gt; t;
+  <span class="hljs-keyword">int</span> a = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">while</span> (t--)
+  {
+    <span class="hljs-built_in">solve</span>(a++);
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
 </div></code></pre>
 
     </div>
